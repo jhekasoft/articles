@@ -3,6 +3,9 @@
 Решил я написать одно кроссплатформенное десктопное приложение на Go. Сделал CLI-версию, всё работает отлично.
 Да ещё и кросскомпиляция в Go поддерживается. Всё в общем отлично. Но понадобилась также и GUI-версия. И тут началось...
 
+![Golang gotk3](https://raw.githubusercontent.com/jhekasoft/articles/master/01_golang_gtk3/images/go_glade_main.png)
+<cut />
+
 ## Выбор библиотеки (биндинга) для GUI
 
 Приложение должно было быть кроссплатформенным.
@@ -13,7 +16,7 @@
 - [therecipe/qt](https://github.com/therecipe/qt) (Qt)
 - [zserge/webview](https://github.com/zserge/webview) (нативный вебвью)
 
-**Electron** и прочие фреймворки, которые тянут с собой Chromium и node.js я откинул так как они весят достаточно много, ещё и съедают много ресурсов операционной системы.
+**Electron** и прочие фреймворки, которые тянут с собой **Chromium** и **node.js**, я откинул так как они весят достаточно много, ещё и съедают много ресурсов операционной системы.
 
 Теперь немного о каждой библиотеке.
 
@@ -60,6 +63,34 @@
 ```bash
 go get github.com/gotk3/gotk3/...
 ```
+
+Также у вас в системе должна быть установлена сама библиотека **GTK+ 3** для разработки.
+
+### GNU/Linux
+
+В **Ubuntu**:
+
+```bash
+sudo apt-get install libgtk-3-dev
+```
+
+В **Arch Linux**:
+
+```bash
+sudo pacman -S gtk3
+```
+
+### macOS
+
+Через **Homebrew**:
+
+```bash
+ brew install gtk-mac-integration gtk+3
+```
+
+### Windows
+
+Здесь всё не так просто. В [официальной инструкции](https://www.gtk.org/download/windows.php) предлагают использовать **MSYS2** и уже в ней всё делать. Лично я писал код на других операционных системах, а кросскомпиляцию для **Windows** делал в **Arch Linux**, о чём дальше напишу.
 
 ## Простой пример
 
@@ -119,7 +150,7 @@ go run main.go
 
 После запуска получим окно такого вида:
 
-![Простой пример на Go](https://raw.githubusercontent.com/jhekasoft/articles/master/01_golang_gtk3/images/go_simple.png)
+![Простой пример на Golang gotk3](https://raw.githubusercontent.com/jhekasoft/articles/master/01_golang_gtk3/images/go_simple.png)
 
 Поздравляю! У вас получилось простое приложение из [README](https://github.com/gotk3/gotk3#sample-use)!
 
@@ -163,13 +194,150 @@ brew install glade
 glade
 ```
 
-##### Windows
+#### Windows
 
 Скачать не самую последнюю версию можно [здесь](http://ftp.gnome.org/pub/GNOME/binaries/win32/glade/). Я лично на **Windows** вообще не устанавливал, поэтому не знаю насчёт стабильность работы там **Glade**.
 
+### Простое приложение с использованием Glade
+
+В общем набросал я примерно такое окно:
+
+![Glade](https://raw.githubusercontent.com/jhekasoft/articles/master/01_golang_gtk3/images/glade_simple_main.png)
+
+Сохранил и получил файл `main.glade`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkWindow" id="window_main">
+    <property name="title" translatable="yes">Пример Glade</property>
+    <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_left">10</property>
+        <property name="margin_right">10</property>
+        <property name="margin_top">10</property>
+        <property name="margin_bottom">10</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkEntry" id="entry_1">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_1">
+            <property name="label" translatable="yes">Go</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">This is label</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
+```
+
+То есть у нас получилось окно `window_main` (`GtkWindow`), в котором внутри контейнер (`GtkBox`), который содержит поле ввода `entry_1` (`GtkEntry`), кнопку `button_1` (`GtkButton`) и метку `label_1` (`GtkLabel`). Кроме этого ещё имеются аттрибуты отсупов (я настроил немного), видимость и другие аттрибуты, которые **Glade** добавила автоматически.
+
+Давайте теперь попробуем загрузить это представление в нашем `main.go`:
+
+```go
+package main
+
+import (
+    "log"
+
+    "github.com/gotk3/gotk3/gtk"
+)
+
+func main() {
+    // Инициализируем GTK.
+    gtk.Init(nil)
+
+    // Создаём билдер
+    b, err := gtk.BuilderNew()
+    if err != nil {
+        log.Fatal("Ошибка:", err)
+    }
+
+    // Загружаем в билдер окно из файла Glade
+    err = b.AddFromFile("main.glade")
+    if err != nil {
+        log.Fatal("Ошибка:", err)
+    }
+
+    // Получаем объект главного окна по ID
+    obj, err := b.GetObject("window_main")
+    if err != nil {
+        log.Fatal("Ошибка:", err)
+    }
+
+    // Преобразуем из объекта именно окно типа gtk.Window
+    // и соединяем с сигналом "destroy" чтобы можно было закрыть
+    // приложение при закрытии окна
+    win := obj.(*gtk.Window)
+    win.Connect("destroy", func() {
+        gtk.MainQuit()
+    })
+
+    // Отображаем все виджеты в окне
+    win.ShowAll()
+
+    // Выполняем главный цикл GTK (для отрисовки). Он остановится когда
+    // выполнится gtk.MainQuit()
+    gtk.Main()
+}
+```
+
+Снова запускаем:
+
+```bash
+go run main.go
+```
+
+И получаем:
+
+![Golang Glade gotk3](https://raw.githubusercontent.com/jhekasoft/articles/master/01_golang_gtk3/images/go_glade_main.png)
+
+Ура! Теперь мы представление формы держим **XML**-подобном `main.glade` файле, а код в `main.go`!
+
 ## Сигналы
 
-## Компиляция
+## Go-рутины
+
+## Кросскомпиляция
 
 ## Распространение
 
