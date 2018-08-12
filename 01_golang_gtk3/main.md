@@ -61,6 +61,8 @@
 go get github.com/gotk3/gotk3/...
 ```
 
+## Простой пример
+
 Теперь пишем небольшой файл с кодом `main.go`:
 
 ```go
@@ -115,15 +117,57 @@ func main() {
 go run main.go
 ```
 
-После запуска получим окно в виде этого:
+После запуска получим окно такого вида:
 
-![image](https://github.com/jhekasoft/articles/raw/master/articles/01_golang_gtk3/images/go_simple.png)
+![Простой пример на Go](https://raw.githubusercontent.com/jhekasoft/articles/master/01_golang_gtk3/images/go_simple.png)
 
-## Простой пример
+Поздравляю! У вас получилось простое приложение из [README](https://github.com/gotk3/gotk3#sample-use)!
+
+Больше примеров можно найти на [Github gotk3](https://github.com/gotk3/gotk3-examples/). Их разбирать я не буду. Давайте лучше займёмся тем, чего нет в примерах!
 
 ## Glade
 
-## События
+Есть такая вещь для **Gtk+ 3** — **Glade**. Это конструктор графических интерфейсов. Выглядит примерно так:
+
+![Glade](https://raw.githubusercontent.com/jhekasoft/articles/master/01_golang_gtk3/images/glade.png)
+
+Чтобы вручную не создавать каждый элемент формы и не помещать его где-то в форме с помощью программного кода, можно весь дизайн накидать в **Glade**. Потом сохранить всё в **XML-подобный** файл **\*.glade** и загрузить его уже через наше приложение.
+
+### Установка Glade
+
+#### GNU/Linux
+
+В дистрибутивах **GNU/Linux** установить **glade** не составит труда. В какой-нибудь **Ubuntu** это будет:
+
+```bash
+sudo apt-get install glade
+```
+
+В **Arch Linux**:
+
+```bash
+sudo pacman -S glade
+```
+
+#### macOS
+
+В загрузках с официального сайта очень старая сборка. Поэтому устанавливать лучше через **Homebrew**:
+
+```bash
+brew install glade
+```
+
+А запускать потом:
+
+```bash
+glade
+```
+
+##### Windows
+
+Скачать не самую последнюю версию можно [здесь](http://ftp.gnome.org/pub/GNOME/binaries/win32/glade/). Я лично на **Windows** вообще не устанавливал, поэтому не знаю насчёт стабильность работы там **Glade**.
+
+## Сигналы
 
 ## Компиляция
 
