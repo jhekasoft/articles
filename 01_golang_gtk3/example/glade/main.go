@@ -36,6 +36,27 @@ func main() {
 		gtk.MainQuit()
 	})
 
+	// Получаем поле ввода
+	obj, _ = b.GetObject("entry_1")
+	entry1 := obj.(*gtk.Entry)
+
+	// Получаем кнопку
+	obj, _ = b.GetObject("button_1")
+	button1 := obj.(*gtk.Button)
+
+	// Получаем метку
+	obj, _ = b.GetObject("label_1")
+	label1 := obj.(*gtk.Label)
+
+	// Сигнал по нажатию на кнопку
+	button1.Connect("clicked", func() {
+		text, err := entry1.GetText()
+		if err == nil {
+			// Устанавливаем текст из поля ввода метке
+			label1.SetText(text)
+		}
+	})
+
 	// Отображаем все виджеты в окне
 	win.ShowAll()
 
