@@ -171,7 +171,7 @@ flutter run
 
 Додаток збереться та завантажеться на девайс:
 
-![Перший додаток](./images/first_app.png)
+![Перший додаток](./images/first_app_framed.png)
 
 ## Створюємо свій додаток з бекендом та... REST API
 
@@ -270,7 +270,7 @@ home: MyHomePage(),
 
 Побачимо:
 
-![Новий додаток](./images/about_app.png)
+![Новий додаток](./images/about_app_framed.png)
 
 ## Бокове меню
 
@@ -369,7 +369,7 @@ Navigator.push(
 
 Оновлюєм:
 
-![Меню](./images/menu_app.png)
+![Меню](./images/menu_app_framed.png)
 
 ## Отримаємо дані з REST API
 
@@ -539,11 +539,13 @@ flutter run --profile
 
 З'явився новий екран:
 
-![Проекти](./images/projects_app.png)
+![Проекти](./images/projects_app_framed.png)
+
+![Проекти з меню](./images/projects_menu_app_framed.png)
 
 Екран з проектами — це `StatefulWidget`, тому що в нас присутній віджет `RefreshIndicator`, для якого використовується змінна-ключ `_refreshIndicatorKey`. Цей віджет потрібен для оновлення списку з проектами. Тобто ми можемо свайпнути екран до низу, а проекти оновляться!
 
-![Оновлення](./images/update_app.png)
+![Оновлення](./images/update_app_framed.png)
 
 Сам список складається з карток (`Card`), в яких є зображення (`Image.network`) та текст (`Text`). І ще вони знаходяться у віджетах `Container` та `Column`. Це нам потрібно щоб зробити прийнятний зовнішній вигляд.
 
