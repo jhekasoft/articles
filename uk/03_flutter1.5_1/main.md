@@ -1,4 +1,4 @@
-# Нативна та кросплатформова мобільна розробка з Flutter
+# Flutter. Нативна та кросплатформова мобільна розробка
 
 ![Flutter](./images/flutter_horizontal.png)
 
@@ -231,9 +231,9 @@ class MyHomePage extends StatefulWidget
 
 І до кінця.
 
-## Початковий екран без стану
+## Робимо простий початковий екран
 
-Зробимо наш початковий екран таким:
+Зробимо наш початковий екран `stateless`, тобто без стану:
 
 ```dart
 class MyHomePage extends StatelessWidget {
@@ -273,7 +273,7 @@ home: MyHomePage(),
 
 ![Новий додаток](./images/about_app_framed.png)
 
-## Бокове меню
+## Додаєм бокове меню
 
 А зараз додамо гарне висувне бокове меню. У `Material Design` таке меню називається `Drawer`.
 Наш віджет з меню назвемо `DrawerMain`. У цьому віджету буде стан — обраний пункт меню. Тому меню матиме тип `StatefulWdget`.
