@@ -25,7 +25,7 @@
 
 ### GNU/Linux
 
-Є сторінка з інструкцією, де треба завантажити архів з `SDK`: https://flutter.dev/docs/get-started/install/linux.
+Є [сторінка з інструкцією](https://flutter.dev/docs/get-started/install/linux), де треба завантажити архів з `SDK`.
 
 Але я раджу спробувати встановити більш лінуксовим способом, тобто знайти `Flutter` десь у вашому репозиторію. Наприклад,
 у операційній системі `ArchLinux` `Flutter` є у репозиторії `AUR`. Тому його можно встановити так:
@@ -50,7 +50,7 @@ sdkmanager "platforms;android-28" "build-tools;28.0.3"
 
 ### macOS
 
-І знову пропонують завантажити архів на офіційній сторінці: https://flutter.dev/docs/get-started/install/macos.
+І знову пропонують завантажити архів на [офіційній сторінці](https://flutter.dev/docs/get-started/install/macos).
 
 Проте якщо ви використовуєте `Homebrew`, то інсталювати можна так:
 
@@ -79,8 +79,7 @@ export ANDROID_HOME=/usr/local/share/android-sdk
 
 ### Windows
 
-Для `Window` думаю таки доведеться качати з офіційного сайту та виконувати все по інструкції:
-https://flutter.dev/docs/get-started/install/windows.
+Для `Window` думаю таки доведеться качати з офіційного сайту та виконувати все [по інструкції](https://flutter.dev/docs/get-started/install/windows).
 
 ## Налаштовуємо IDE
 
